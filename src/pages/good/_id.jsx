@@ -12,6 +12,8 @@ export default function () {
         {title: 'Кресло “Солнце”', to: '#', price: '4500 p.', img: IMAGES.popular_good_3},
     ])
 
+    window.scrollTo(0, 0);
+
     return (
         <>
             {/* Good one */}

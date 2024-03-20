@@ -27,7 +27,6 @@ export default function () {
             });
             return newGoods;
         });
-        // sumPrice();
     }
 
     const plus = (idx) => {
@@ -40,12 +39,13 @@ export default function () {
             });
             return newGoods;
         });
-        // sumPrice();
     }
 
     useEffect(() => {
         sumPrice();
     }, [goods])
+
+    window.scrollTo(0, 0);
 
     return (
         <section className="basket">

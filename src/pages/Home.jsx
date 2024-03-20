@@ -11,12 +11,12 @@ export default function () {
     ]);
 
     const [popularGood, setPopularGood] = useState([
-        {title: 'Корзина для белья “Детсво”', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Полотенце “Родное”', to: '#', price: '4500 p.', img: IMAGES.popular_good_2, new: true},
-        {title: 'Кресло “Солнце”', to: '#', price: '4500 p.', img: IMAGES.popular_good_3},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_2},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_3},
+        {title: 'Корзина для белья “Детсво”', to: '/good/1', price: '4500 p.', img: IMAGES.popular_good_1},
+        {title: 'Полотенце “Родное”', to: '/good/2', price: '4500 p.', img: IMAGES.popular_good_2, new: true},
+        {title: 'Кресло “Солнце”', to: '/good/3', price: '4500 p.', img: IMAGES.popular_good_3},
+        {title: 'Название или типо того ', to: '/good/4', price: '4500 p.', img: IMAGES.popular_good_1},
+        {title: 'Название или типо того ', to: '/good/5', price: '4500 p.', img: IMAGES.popular_good_2},
+        {title: 'Название или типо того ', to: '/good/6', price: '4500 p.', img: IMAGES.popular_good_3},
     ])
 
     window.scrollTo(0, 0);
