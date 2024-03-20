@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom";
 import IMAGES from "../assets/images"
+import GoodCard from "../components/GoodCard";
 
 export default function () {
     const [categoryCard, setCategoryCard] = useState([
@@ -17,6 +18,8 @@ export default function () {
         {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_2},
         {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_3},
     ])
+
+    window.scrollTo(0, 0);
 
     return (
         <>
@@ -54,20 +57,10 @@ export default function () {
                 <h2 className="sec_title popular_good__title">ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
                 <ul className="popular_good__card">
                     {popularGood.map((item, idx) => (
-                        <li key={idx} className="popular_good__card_item">
-                            <div className="img">
-                                <img src={item.img} alt="" />
-                                <Link to={item.to}>ПОДРОБНЕЕ</Link>
-                                <span className={`alert_new ${item.new ? 'active' : ''}`}>новинка</span>
-                            </div>
-                            <h3>
-                                <span className="name">{item.title}</span>
-                                <span className={`price ${item.new ? 'new' : ''}`}>{item.price}</span>
-                            </h3>
-                        </li>
+                        <GoodCard key={idx} good={item}/>
                     ))}
                 </ul>
-                <Link to="/" className="btn_green show_more">ПОДРОБНЕЕ</Link>
+                <Link to="/good" className="btn_green show_more">ПОДРОБНЕЕ</Link>
             </div>
         </section>
         {/* Popular goods end */}
@@ -85,7 +78,7 @@ export default function () {
                             <p>Смотри это же мебель из переработанного пластика</p>
                         </div>
                         <div className="link_wrap">
-                            <Link to='/' className="btn_pink">УЗНАТЬ БОЛЬШЕ</Link>
+                            <Link to='/new' className="btn_pink">УЗНАТЬ БОЛЬШЕ</Link>
                         </div>
                     </div>
                     <img src={IMAGES.new_card_1} alt="" className="new_block__content_right" />

@@ -14,6 +14,15 @@ const IMAGES = {
     contact_card_1: new URL('./contact_card_1.png', import.meta.url).href,
     contact_card_2: new URL('./contact_card_2.png', import.meta.url).href,
     footer_logo: new URL('./footer_logo.png', import.meta.url).href,
+    new_home_card_1: new URL('./new_home_card_1.png', import.meta.url).href,
+    new_home_card_2: new URL('./new_home_card_2.png', import.meta.url).href,
+    multi_color_1: new URL('./multi_color_1.png', import.meta.url).href,
+    multi_color_2: new URL('./multi_color_2.png', import.meta.url).href,
+    multi_color_3: new URL('./multi_color_3.png', import.meta.url).href,
+    multi_color_4: new URL('./multi_color_4.png', import.meta.url).href,
+    close: new URL('./close.svg', import.meta.url).href,
+    sort_icon_1: new URL('./sort_icon_1.svg', import.meta.url).href,
+    sort_icon_2: new URL('./sort_icon_2.svg', import.meta.url).href,
 }
 
 export default IMAGES

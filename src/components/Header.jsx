@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState, useRef } from 'react'
 import IMAGES from "../assets/images";
+import { useLocation } from "react-router-dom";
 
 
 export default function () {
+    let location = useLocation();
     const [navs, setNavs] = useState([
         {name: 'Доставка', to: '/'},
         {name: 'Гарантия', to: '/'},
@@ -28,7 +30,7 @@ export default function () {
 
     return (
         <>
-            <header className="header">
+            <header className={`header ${location.pathname == '/new' ? 'bg_pink' : ''}`}>
                 <div className="main_container">
                     <Link to="/" className="header__logo">
                         <img src={IMAGES.header_logo} alt="" />

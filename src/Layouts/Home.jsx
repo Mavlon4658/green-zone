@@ -5,12 +5,10 @@ import Footer from '../components/Footer.jsx'
 
 export default function () {
     return (
-        <>
-            <div className="wrapper">
-                <Header />
-                <Outlet />
-                <Footer />
-            </div>
-        </>
+        <div className="wrapper">
+            <Header />
+            <Outlet />
+            <Footer />
+        </div>
     )
 }

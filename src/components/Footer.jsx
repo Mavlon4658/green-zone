@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom";
 import IMAGES from "../assets/images"
+import { useLocation } from "react-router-dom";
 
 export default function () {
+    let location = useLocation();
+
     return (
-        <footer className="footer">
+        <footer className={`footer ${location.pathname == '/new' ? 'bg_pink' : ''}`}>
             <ul className="main_container">
                 <li className="footer__link">
                     <span>Местоположение</span>
