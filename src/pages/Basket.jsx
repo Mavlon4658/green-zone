@@ -19,33 +19,29 @@ export default function () {
 
     const minus = (idx) => {
         setGoods(oldGoods => {
-            const newGoods = oldGoods.map((item, i) => {
+            return oldGoods.map((item, i) => {
                 if (item.count > 0 && idx == i) {
                     return { ...item, count: item.count - 1 };
                 }
                 return item;
             });
-            return newGoods;
         });
     }
 
     const plus = (idx) => {
         setGoods(oldGoods => {
-            const newGoods = oldGoods.map((item, i) => {
+            return oldGoods.map((item, i) => {
                 if (idx == i) {
                     return { ...item, count: item.count + 1 };
                 }
                 return item;
             });
-            return newGoods;
         });
     }
 
     useEffect(() => {
         sumPrice();
     }, [goods])
-
-    window.scrollTo(0, 0);
 
     return (
         <section className="basket">
