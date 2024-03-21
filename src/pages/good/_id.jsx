@@ -1,18 +1,71 @@
-import { useState } from "react"
-import { Link } from "react-router-dom";
+import { useRef, useState, useEffect } from "react"
+import { Link, json, useParams } from "react-router-dom";
 import IMAGES from "../../assets/images"
 import GoodCard from "../../components/GoodCard";
+import storeProduct from '../../DB/datas.js'
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+
+// import required modules
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { toast } from "react-toastify";
 
 export default function () {
-    const [imgs, setImgs] = useState([IMAGES.popular_good_1, IMAGES.popular_good_1, IMAGES.popular_good_1])
+    const params = useParams();
+    const [imgs, setImgs] = useState([])
     const [currentImg, setcurrentImg] = useState(0)
-    const [popularGood, setPopularGood] = useState([
-        {title: 'Корзина для белья “Детсво”', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Полотенце “Родное”', to: '#', price: '4500 p.', img: IMAGES.popular_good_2, new: true},
-        {title: 'Кресло “Солнце”', to: '#', price: '4500 p.', img: IMAGES.popular_good_3},
-    ])
+    const [popularGood, setPopularGood] = useState({})
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-    window.scrollTo(0, 0);
+    const saveBasket = () => {
+        
+        toast.success("Продукт был добавлен в корзину!", {
+            autoClose: 3000,
+            pauseOnHover: false,
+        })
+        let card = localStorage.getItem('basket');
+
+        if (!card) {
+            card = [{goodID: +params.id, count: 1}];
+        } else {
+            card = JSON.parse(card)
+            let newCard = card.find(a => a.goodID == params.id)
+            if (!newCard) {
+                card.push({goodID: +params.id, count: 1});
+            } else {
+                
+                card = card.map(item => {
+                    if (item.goodID == params.id) {
+                        return {...item, count: item.count+1};
+                    }
+                    
+                    return item
+                });
+            }
+        }
+        localStorage.setItem('basket', JSON.stringify(card))
+    }
+
+    useEffect(() => {
+        let newCard = storeProduct.filter(a => a.id == params.id)[0]
+        setPopularGood(storeProduct.filter(a => a.id == params.id)[0])
+    }, [params.id])
+
+    useEffect(() => {
+        if (popularGood.id) {
+            setImgs(popularGood.photo)
+        }
+    }, [popularGood])
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
 
     return (
         <>
@@ -20,28 +73,43 @@ export default function () {
             <section className="good_one">
                 <div className="main_container">
                     <div className="good_one_left">
-                        <h2 className="sec_title good_one__title">КОРЗИНА</h2>
-                        <p>Материал: Дерево и металл</p>
-                        <p>Размеры: 40 см x 40 см x 40 см</p>
-                        <p>Цвета: Натуральное дерево, черный металл</p>
-                        <br />
-                        <p>Особенности:</p>
-                        <p>- Уникальный дизайн в стиле абстракции</p>
-                        <p>- Прочная конструкция из натурального дерева и металла</p>
-                        <p>- Современное сочетание материалов</p>
-                        <p>- Компактные размеры, идеально подходит для небольших пространств</p>
+                        <h2 className="sec_title good_one__title">{popularGood?.name}</h2>
+                        <p>{popularGood?.additionalInfo}</p>
                         <div className="btn_wrap">
-                            <button className="btn_green">ДОБАВИТЬ В КОРЗИНУ</button>
+                            <button className="btn_green" onClick={() => saveBasket()}>ДОБАВИТЬ В КОРЗИНУ</button>
                         </div>
                     </div>
                     <div className="good_one_right">
-                        <img src={imgs[currentImg]} alt="" />
-                        <span className="price">49000</span>
-                    </div>
-                    <div className="good_one_bottom">
-                        {imgs.map((item, idx) => (
-                            <img key={idx} src={item} alt="" onClick={() => setcurrentImg(idx)} className={`${currentImg == idx ? 'active' : ''}`}/>
-                        ))}
+                        <div className="prent_slider__wrap">
+                            <Swiper
+                                thumbs={{ swiper: thumbsSwiper }}
+                                modules={[FreeMode, Navigation, Thumbs]}
+                                className="swiper_parent mySwiper2"
+                            >
+                                {imgs.map((item, idx) => (
+                                    <SwiperSlide key={idx}>
+                                        <img src={item} alt="" />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                            <span className="price">{popularGood?.price}</span>
+                        </div>
+                        <Swiper
+                            onSlideChange={(swiper) => {setThumbsSwiper(swiper);}}
+                            onClick={(swiper) => {setThumbsSwiper(swiper);}}
+                            spaceBetween={10}
+                            slidesPerView={3}
+                            freeMode={true}
+                            watchSlidesProgress={true}
+                            modules={[FreeMode, Navigation, Thumbs]}
+                            className={`swiper_child mySwiper ${imgs.length == 1 ? 'hidden': ''}`}
+                        >
+                            {imgs.map((item, idx) => (
+                                <SwiperSlide key={idx}>
+                                    <img src={item} alt="" />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     </div>
                 </div>
             </section>
@@ -52,7 +120,7 @@ export default function () {
                 <div className="main_container">
                     <h2 className="sec_title popular_good__title">ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
                     <ul className="popular_good__card">
-                        {popularGood.map((item, idx) => (
+                        {storeProduct.slice(0, 3).map((item, idx) => (
                             <GoodCard key={idx} good={item}/>
                         ))}
                     </ul>

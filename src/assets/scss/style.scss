@@ -1078,6 +1078,7 @@ body {
 // good 
 .good {
     padding: 38px 0 88px;
+    min-height: 80vh;
 
     &__title {
         margin-bottom: 40px;
@@ -1088,11 +1089,16 @@ body {
         align-items: flex-start;
         gap: 17px;
 
+        @include media(576) {
+            flex-direction: column;
+        }
+
         &_left {
             width: 234px;
 
             @include media(576) {
-                display: none;
+                width: 100%;
+                margin-bottom: 20px;
             }
 
             .filter_title {
@@ -1162,10 +1168,24 @@ body {
             font-size: 13px;
             line-height: 210%;
 
-            a {
+            button {
+                height: 27px;
+                width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+
+                &.active {
+                    background: #2e5c3c;
+                    color: #fff;
+                    padding: 0 10px;
+                }
+
+                span {
+                    &::first-letter {
+                        text-transform: capitalize;
+                    }
+                }
             }
         }
     }
@@ -1319,6 +1339,36 @@ body {
             align-items: center;
         }
 
+        .prent_slider__wrap {
+            width: 100%;
+            position: relative;
+        }
+
+        .swiper_parent {
+            width: 100%;
+
+            img {
+                width: 100%;
+                height: 450px;
+                object-fit: contain;
+            }
+        }
+
+        .swiper_child {
+            width: 100%;
+            margin-top: 20px;
+
+            &.hidden {
+                display: none !important;
+            }
+
+            img {
+                cursor: pointer;
+                width: 100%;
+                height: 100px;
+            }
+        }
+
         img {
             width: 100%;
 
@@ -1334,6 +1384,10 @@ body {
         }
 
         .price {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 2;
             padding: 0 20px;
             height: 64px;
             display: flex;
@@ -1381,6 +1435,7 @@ body {
 // Basket
 .basket {
     margin: 46px 0 102px;
+    min-height: 60vh;
 
     &__title {
         display: flex;
@@ -1407,6 +1462,7 @@ body {
             display: flex;
             align-items: center;
             border-bottom: 2px solid #2E5C3C; 
+            position: relative;
     
             @include media(1050) {
                 gap: 30px;
@@ -1417,7 +1473,26 @@ body {
                 flex-wrap: wrap;
             }
 
+            .clear {
+                position: absolute;
+                right: 30px;
+                top: 20px;
+                z-index: 2;
+
+                svg {
+                    width: 20px;
+                    
+                    path {
+                        fill: #2E5C3C;
+                    }
+                }
+            }
+
             .main_img {
+                width: 180px;
+                height: 180px;
+                object-fit: contain;
+
                 @include media(830) {
                     width: 100%;
                     height: 300px;
@@ -1475,6 +1550,14 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        &.hidden {
+            display: none !important;
+        }
     }
+}
+
+#react-confirm-alert .react-confirm-alert-button-group > button {
+    @extend .btn_green;
 }
 // Basket end

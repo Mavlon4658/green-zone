@@ -1,21 +1,66 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import IMAGES from "../../assets/images"
 import GoodCard from "../../components/GoodCard";
+import storeProduct from '../../DB/datas.js'
 
 export default function () {
-    const [popularGood, setPopularGood] = useState([
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', discount: '3500 р.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '#', price: '4500 p.', img: IMAGES.popular_good_1},
-    ])
+    const [color, setColor] = useState('')
+    const [sortGood, setSortGood] = useState(storeProduct)
+    const [sortGood2, setSortGood2] = useState(storeProduct)
+    const [typeList, setTypeList] = useState({})
+    const [currentType, setCurrentType] = useState('');
+
+    const sortByCategory = (key) => {
+        setCurrentType(key);
+        if (key != '') {
+            setSortGood2(sortGood.filter(a => {
+                if (a.type.toLowerCase() == key.toLowerCase()) {
+                    return true;
+                }
+            }))
+        } else {
+            setSortGood2([...sortGood]);
+        }
+    }
+
+    const filerByColor = (c) => {
+        setColor(c)
+        if (c != '') {
+            setSortGood(storeProduct.filter(a => {
+                if (a.color.toLowerCase() == c.toLowerCase()) {
+                    return true
+                }
+            }))
+        } else {
+            setSortGood(storeProduct)
+        }
+        console.log(c);
+        setCurrentType('');
+    }
     
-    window.scrollTo(0, 0);
+    const getTypeList = () => {
+        const type = {};
+        sortGood.forEach((item) => {
+            let key = item.type.toLowerCase();
+            if (!type[key]) {
+                type[key] = 0
+            }
+            
+            type[key] += 1;
+        })
+        setTypeList(type)
+    }
+    
+    useEffect(() => {
+        getTypeList()
+        sortByCategory('');
+    }, [sortGood])
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        filerByColor(color)
+    }, [])
 
     return (
         <section className="good">
@@ -33,22 +78,12 @@ export default function () {
                             </div>
                             <ul>
                                 <li>
-                                    <Link to="#">
-                                        <span>Мягкая мебель </span>
-                                        <span>15</span>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="#">
-                                        <span>Аксессуары для дома</span>
-                                        <span>15</span>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="#">
-                                        <span>Светильники</span>
-                                        <span>15</span>
-                                    </Link>
+                                    {Object.entries(typeList).map(([key, value], idx) => (
+                                        <button className={`${currentType == key ? 'active' : ''}`} onClick={() => sortByCategory(key)} key={idx}>
+                                            <span>{key}</span>
+                                            <span>{value}</span>
+                                        </button>
+                                    ))}
                                 </li>
                             </ul>
                         </div>
@@ -60,34 +95,17 @@ export default function () {
                                 </svg>
                             </div>
                             <div className="good__color_list">
-                                <button className="black"></button>
-                                <button className="green active"></button>
+                                <button className={`black ${color == 'черный' ? 'active' : ''}`} onClick={() => filerByColor('черный')}></button>
+                                <button className={`green ${color == 'зеленый' ? 'active' : ''}`} onClick={() => filerByColor('зеленый')}></button>
                             </div>
                         </div>
                         <div className="filter_link_wrap">
-                            <button className="btn_green">Фильтры (8)</button>
+                            <button className="btn_green">Фильтры ({sortGood.length})</button>
                         </div>
                     </div>
                     <div className="good__block_right">
-                        <div className="good__block_right__top">
-                            <div>
-                                <button>
-                                    Мягкая мебель
-                                    <img src={IMAGES.close} alt="" />
-                                </button>
-                                <button>Очистить</button>
-                            </div>
-                            <div>
-                                <button className="sort_btn">
-                                    <img src={IMAGES.sort_icon_1} alt="" />
-                                </button>
-                                <button className="sort_btn">
-                                    <img src={IMAGES.sort_icon_2} alt="" />
-                                </button>
-                            </div>
-                        </div>
                         <ul className="good__cards">
-                            {popularGood.map((item, idx) => (
+                            {sortGood2.map((item, idx) => (
                                 <GoodCard key={idx} good={item} />
                             ))}
                         </ul>

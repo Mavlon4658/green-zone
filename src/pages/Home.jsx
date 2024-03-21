@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom";
 import IMAGES from "../assets/images"
 import GoodCard from "../components/GoodCard";
+import storeProduct from '../DB/datas.js'
 
 export default function () {
     const [categoryCard, setCategoryCard] = useState([
@@ -10,14 +11,14 @@ export default function () {
         {img: IMAGES.category_card_3, name: 'Мягкая мебель', to: '/'},
     ]);
 
-    const [popularGood, setPopularGood] = useState([
-        {title: 'Корзина для белья “Детсво”', to: '/good/1', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Полотенце “Родное”', to: '/good/2', price: '4500 p.', img: IMAGES.popular_good_2, new: true},
-        {title: 'Кресло “Солнце”', to: '/good/3', price: '4500 p.', img: IMAGES.popular_good_3},
-        {title: 'Название или типо того ', to: '/good/4', price: '4500 p.', img: IMAGES.popular_good_1},
-        {title: 'Название или типо того ', to: '/good/5', price: '4500 p.', img: IMAGES.popular_good_2},
-        {title: 'Название или типо того ', to: '/good/6', price: '4500 p.', img: IMAGES.popular_good_3},
-    ])
+    // const [popularGood, setPopularGood] = useState([
+    //     {title: 'Корзина для белья “Детсво”', to: '/good/1', price: '4500 p.', img: IMAGES.popular_good_1},
+    //     {title: 'Полотенце “Родное”', to: '/good/2', price: '4500 p.', img: IMAGES.popular_good_2, new: true},
+    //     {title: 'Кресло “Солнце”', to: '/good/3', price: '4500 p.', img: IMAGES.popular_good_3},
+    //     {title: 'Название или типо того ', to: '/good/4', price: '4500 p.', img: IMAGES.popular_good_1},
+    //     {title: 'Название или типо того ', to: '/good/5', price: '4500 p.', img: IMAGES.popular_good_2},
+    //     {title: 'Название или типо того ', to: '/good/6', price: '4500 p.', img: IMAGES.popular_good_3},
+    // ])
 
     window.scrollTo(0, 0);
 
@@ -56,7 +57,7 @@ export default function () {
             <div className="main_container">
                 <h2 className="sec_title popular_good__title">ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
                 <ul className="popular_good__card">
-                    {popularGood.map((item, idx) => (
+                    {storeProduct.slice(0, 6).map((item, idx) => (
                         <GoodCard key={idx} good={item}/>
                     ))}
                 </ul>
