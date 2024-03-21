@@ -35,7 +35,6 @@ export default function () {
         } else {
             setSortGood(storeProduct)
         }
-        console.log(c);
         setCurrentType('');
     }
     
